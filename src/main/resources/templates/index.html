@@ -1,0 +1,28 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head">
+</th:block>
+</head>
+<body>
+<div class="container-fluid">
+
+    <header th:insert="fragments/navbar">
+    </header>
+
+    <main class="mt-3">
+        <div class="jumbotron bg-light">
+            <h1 class="display-1 font-italic">Product Shop</h1>
+            <hr>
+            <p>
+                This is the biggest, best online shop! <a href="/users/login">Login</a>, if you don't have an account,
+                don't hesitate - <a href="/users/register">Register</a>
+            </p>
+        </div>
+    </main>
+
+    <th:block th:insert="fragments/footer">
+    </th:block>
+
+</div>
+
+</body>
+</html>

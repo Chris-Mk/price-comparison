@@ -1,0 +1,39 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head">
+</th:block>
+<body>
+<div class="container-fluid">
+
+    <header th:insert="fragments/navbar">
+    </header>
+
+    <main class="mt-3">
+        <div class="jumbotron bg-light">
+            <div class="text-center">
+                <img src="https://scontent.fsof9-1.fna.fbcdn.net/v/t31.0-1/p160x160/21728964_1906109432972986_7516422178604372640_o.jpg?_nc_cat=101&_nc_ohc=QsTrsdCDfBYAX8TMvg2&_nc_ht=scontent.fsof9-1.fna&_nc_tp=1002&oh=6b080c87da2f00fd4d7b2cce9f2e3c45&oe=5EA5C826"
+                     alt="profileImg" width="300px">
+            </div>
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <h1 th:text="${user.username}"></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <h4 th:text="${user.email}"></h4>
+                </div>
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-dark">Edit Profile</a>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:insert="fragments/footer">
+    </th:block>
+
+</div>
+
+</body>
+</html>

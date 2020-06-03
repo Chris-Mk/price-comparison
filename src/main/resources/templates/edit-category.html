@@ -1,0 +1,34 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head">
+</th:block>
+<body>
+<div class="container-fluid">
+
+    <header th:insert="fragments/navbar">
+    </header>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Edit Category</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form id="edit-category-form" class="form w-25 mx-auto" th:object="${model}"
+              th:action="@{/categories/edit/{id}(id=*{id})}" th:method="post">
+            <div class="form-group">
+                <label for="edit-category-name" class="font-weight-bold">Name</label>
+                <input type="text" class="form-control text-center" id="edit-category-name" name="name"
+                       th:field="*{name}" th:errorclass="border-danger">
+                <small th:errors="*{name}" class="text-danger"></small>
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-info">Edit Category</button>
+            </div>
+        </form>
+    </main>
+
+    <th:block th:insert="fragments/footer">
+    </th:block>
+
+</div>
+
+</body>
+</html>
