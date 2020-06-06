@@ -68,7 +68,7 @@ class GroceryListServiceImplTest {
         when(mockGroceryListRepository.findById(mockGroceryList.getId())).thenReturn(Optional.ofNullable(mockGroceryList));
         when(mockProductRepository.findById(mockProduct.getId())).thenReturn(Optional.ofNullable(mockProduct));
 
-        mockGroceryListService.addProduct(mockGroceryList.getId(), mockProduct.getId());
+        mockGroceryListService.addProduct(mockProduct.getId(), mockGroceryList.getId());
 
         verify(mockGroceryListRepository).save(mockGroceryList);
         assertEquals(1, mockGroceryList.getProducts().size());
@@ -78,7 +78,7 @@ class GroceryListServiceImplTest {
     void addProduct_withInvalidProductId_throwsException() {
         when(mockProductRepository.findById(anyString())).thenReturn(Optional.empty());
         assertThrows(ProductNotFoundException.class,
-                () -> mockGroceryListService.addProduct(mockProduct.getId(), anyString()));
+                () -> mockGroceryListService.addProduct(anyString(), mockProduct.getId()));
     }
 
     @Test
@@ -87,7 +87,7 @@ class GroceryListServiceImplTest {
         when(mockGroceryListRepository.findById(anyString())).thenReturn(Optional.empty());
 
         assertThrows(GroceryListNotFoundException.class,
-                () -> mockGroceryListService.addProduct(mockProduct.getId(), mockGroceryList.getId()));
+                () -> mockGroceryListService.addProduct(mockGroceryList.getId(), mockProduct.getId()));
     }
 
     @Test

@@ -36,12 +36,12 @@ public class GroceryListServiceImpl implements GroceryListService {
         final User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User with username <u>" + userEmail + "</u> does not exist!"));
 
-        user.getGroceryLists()
-                .forEach(groceryList -> {
-                    if (groceryList.getName().equals(listName)) {
-                        throw new GroceryListExistException("Grocery list with name <u>" + listName + "</u> already exists!");
-                    }
-                });
+        boolean doesListExist = user.getGroceryLists()
+                .stream()
+                .anyMatch(groceryList -> groceryList.getName().equals(listName));
+
+        if (doesListExist)
+            throw new GroceryListExistException("Grocery list with name <u>" + listName + "</u> already exists!");
 
         GroceryList list = new GroceryList();
         list.setCreatedAt(LocalDateTime.now());
@@ -53,7 +53,7 @@ public class GroceryListServiceImpl implements GroceryListService {
     }
 
     @Override
-    public void addProduct(String listId, String productId) {
+    public boolean addProduct(String listId, String productId) {
         final Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product with id <u>" + productId + "</u> does not exist!"));
 
@@ -65,6 +65,7 @@ public class GroceryListServiceImpl implements GroceryListService {
                 }, () -> {
                     throw new GroceryListNotFoundException();
                 });
+        return false;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class GroceryListServiceImpl implements GroceryListService {
         return groceryListRepository.findById(listId)
                 .map(groceryList -> mapper.map(groceryList, GroceryListDetailsModel.class))
                 .orElseThrow(() -> {
-                    throw new GroceryListNotFoundException("Order with id <u>" + listId + "</u> does not exist!");
+                    throw new GroceryListNotFoundException("Grocery list with id <u>" + listId + "</u> does not exist!");
                 });
     }
 
@@ -103,11 +104,12 @@ public class GroceryListServiceImpl implements GroceryListService {
     }
 
     @Override
-    public void removeProduct(String listId, String productId) {
+    public boolean removeProduct(String listId, String productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
 
         groceryListRepository.findById(listId)
                 .ifPresent(groceryList -> groceryList.getProducts().remove(product));
+        return false;
     }
 }
