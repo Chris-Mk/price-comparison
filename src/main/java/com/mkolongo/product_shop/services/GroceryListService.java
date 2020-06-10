@@ -10,7 +10,7 @@ public interface GroceryListService {
 
     GroceryList createList(String listName, String userEmail);
 
-    boolean addProduct(String listId, String productId);
+    void addProduct(String listId, String productId);
 
     GroceryListDetailsModel getGroceryListById(String id);
 
@@ -20,5 +20,5 @@ public interface GroceryListService {
 
     Set<GroceryListServiceModel> getAllUncompletedLists();
 
-    boolean removeProduct(String listId, String productId);
+    void removeProduct(String listId, String productId);
 }

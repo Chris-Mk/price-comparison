@@ -53,7 +53,7 @@ public class GroceryListServiceImpl implements GroceryListService {
     }
 
     @Override
-    public boolean addProduct(String listId, String productId) {
+    public void addProduct(String listId, String productId) {
         final Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product with id <u>" + productId + "</u> does not exist!"));
 
@@ -63,9 +63,8 @@ public class GroceryListServiceImpl implements GroceryListService {
                     groceryList.getProducts().add(product);
                     groceryListRepository.save(groceryList);
                 }, () -> {
-                    throw new GroceryListNotFoundException();
+                    throw new GroceryListNotFoundException("Grocery list with id <u>" + listId + "</u> does not exist!");
                 });
-        return false;
     }
 
     @Override
@@ -104,12 +103,11 @@ public class GroceryListServiceImpl implements GroceryListService {
     }
 
     @Override
-    public boolean removeProduct(String listId, String productId) {
+    public void removeProduct(String listId, String productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow();
+                .orElseThrow(() -> new ProductNotFoundException("Product with id <u>" + productId + "</u> does not exist!"));
 
         groceryListRepository.findById(listId)
                 .ifPresent(groceryList -> groceryList.getProducts().remove(product));
-        return false;
     }
 }

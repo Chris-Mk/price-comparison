@@ -25,13 +25,13 @@ public class GroceryListController {
     }
 
     @PostMapping("/{listId}/add-product/{productId}")
-    public boolean addProduct(@PathVariable String listId, @PathVariable String productId) {
-        return groceryListService.addProduct(listId, productId);
+    public void addProduct(@PathVariable String listId, @PathVariable String productId) {
+        groceryListService.addProduct(listId, productId);
     }
 
     @DeleteMapping("/{listId}/remove-product/{productId}")
-    public boolean removeProduct(@PathVariable String listId, @PathVariable String productId) {
-        return groceryListService.removeProduct(listId, productId);
+    public void removeProduct(@PathVariable String listId, @PathVariable String productId) {
+        groceryListService.removeProduct(listId, productId);
     }
 
     @GetMapping

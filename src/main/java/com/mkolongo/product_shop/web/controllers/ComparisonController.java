@@ -1,28 +1,49 @@
 package com.mkolongo.product_shop.web.controllers;
 
-import com.mkolongo.product_shop.services.GroceryListService;
+import com.mkolongo.product_shop.domain.models.view.ComparisonViewModel;
+import com.mkolongo.product_shop.services.ComparisonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/my-comparisons")
 @RequiredArgsConstructor
 public class ComparisonController {
 
-    private final GroceryListService groceryListService;
+    private final ComparisonService comparisonService;
+//    private final GroceryListService groceryListService;
 
-    @GetMapping("/details")
-    @PreAuthorize("isAuthenticated()")
-    public String details(Model model, Principal principal) {
+    @PostMapping("/add-product/{productId}")
+    public void addProduct(@PathVariable String productId, Principal principal) {
+        comparisonService.addProduct(productId, principal.getName());
+    }
+
+    @DeleteMapping("{comparisonId}/remove-product/{productId}")
+    public void removeProduct(@PathVariable String comparisonId, @PathVariable String productId) {
+        comparisonService.removeProduct(comparisonId, productId);
+    }
+
+    @GetMapping
+    public void myComparisons(Model model, Principal principal) {
+        Set<ComparisonViewModel> myComparisons = comparisonService.getAllComparisons(principal.getName());
+        model.addAttribute("myComparisons", myComparisons);
+    }
+
+    @DeleteMapping("/delete-comparison/{comparisonId}")
+    public void deleteComparison(@PathVariable String comparisonId) {
+        comparisonService.deleteComparison(comparisonId);
+    }
+
+    @GetMapping("/details/{comparisonId}")
+    public String details(@PathVariable String comparisonId, Model model) {
+        ComparisonViewModel comparisonViewModel = comparisonService.getComparisonById(comparisonId);
+        model.addAttribute("comparisonViewModel", comparisonViewModel);
+
 //        var orders = groceryListService.getGroceryListsByOwnersEmail(principal.getName());
 //        final BigDecimal totalPrice = orders.stream()
 //                .map(o -> o.getTotalPrice().multiply(BigDecimal.valueOf(o.getQuantity())))
@@ -30,17 +51,18 @@ public class ComparisonController {
 //
 //        model.addAttribute("model", orders);
 //        model.addAttribute("price", totalPrice);
+
         return "cart-details";
     }
 
-    @PostMapping("/checkout")
-    public String checkout() {
-        return "redirect:/users/home";
-    }
-
-    @PostMapping("/remove/{id}")
-    public String remove(@PathVariable String id) {
-//        groceryListService.removeProduct(id);
-        return "redirect:/cart/details";
-    }
+//    @PostMapping("/checkout")
+//    public String checkout() {
+//        return "redirect:/users/home";
+//    }
+//
+//    @PostMapping("/remove/{id}")
+//    public String remove(@PathVariable String id) {
+////        groceryListService.removeProduct(id);
+//        return "redirect:/cart/details";
+//    }
 }
