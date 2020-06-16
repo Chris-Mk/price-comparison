@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
     private void setRole(User user) {
         if (userRepository.count() == 0) {
-            user.setRoles(Set.of(Role.ROLE_ROOT, Role.ROLE_ADMIN, Role.ROLE_MODERATOR, Role.ROLE_USER));
+            user.setRoles(Set.of(Role.ROLE_ROOT, Role.ROLE_ADMIN, Role.ROLE_SELLER, Role.ROLE_USER));
         } else {
             user.setRoles(Set.of(Role.ROLE_USER));
         }

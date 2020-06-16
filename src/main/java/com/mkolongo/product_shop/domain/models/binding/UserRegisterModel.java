@@ -12,11 +12,11 @@ import javax.validation.constraints.NotBlank;
 public class UserRegisterModel {
 
     @NotBlank(message = "First name required!")
-    @Length(max = 2, message = "First name must be at least 2 characters long!")
+    @Length(min = 2, message = "First name must be at least 2 characters long!")
     private String firstName;
 
     @NotBlank(message = "Last name required!")
-    @Length(max = 2, message = "Last name must be at least 2 characters long!")
+    @Length(min = 2, message = "Last name must be at least 2 characters long!")
     private String lastName;
 
 //    @NotBlank(message = "Username required!")

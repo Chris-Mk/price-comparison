@@ -13,7 +13,7 @@ public class SellerRegisterModel {
     @NotBlank(message = "Company name required!")
     private String name;
 
-    @Email(regexp = "", message = "Company email required!")
+    @Email(regexp = "^\\w+[.\\w]*@\\w+[.\\w]*", message = "Company email required!")
     private String email;
 
     @NotBlank(message = "Password required!")

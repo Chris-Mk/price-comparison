@@ -10,4 +10,8 @@ public interface SellerRepository extends BaseRepository<Seller> {
 
     Optional<Seller> findByName(String name);
 
+    Boolean existsByEmail(String email);
+
+    Boolean existsByName(String name);
+
 }

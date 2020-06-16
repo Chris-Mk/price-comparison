@@ -36,22 +36,23 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "user-login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("userRegisterModel", new UserRegisterModel());
-        return "register";
+        return "user-register";
     }
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("userRegisterModel") UserRegisterModel bindingModel,
                            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "register";
+        if (bindingResult.hasErrors()) return "user-register";
 
         try {
-            userService.register(mapper.map(bindingModel, UserServiceModel.class));
+            UserServiceModel serviceModel = mapper.map(bindingModel, UserServiceModel.class);
+            userService.register(serviceModel);
         } catch (UsernameExistException | EmailExistException | PasswordsDontMatchException ex) {
             if (ex instanceof UsernameExistException) {
                 bindingResult.rejectValue("username", "error.bindingModel", ex.getMessage());
@@ -61,7 +62,7 @@ public class UserController {
                 bindingResult.rejectValue("password", "error.bindingModel", ex.getMessage());
                 bindingResult.rejectValue("confirmPassword", "error.bindingModel", ex.getMessage());
             }
-            return "register";
+            return "user-register";
         }
 
         return "redirect:/users/login";
@@ -126,11 +127,11 @@ public class UserController {
         return "all-users";
     }
 
-    @PostMapping("/set-moderator/{id}")
-    public String setModerator(@PathVariable("id") String userId) {
-        userService.editRole(userId, Role.ROLE_MODERATOR);
-        return "redirect:/users/all";
-    }
+//    @PostMapping("/set-moderator/{id}")
+//    public String setModerator(@PathVariable("id") String userId) {
+//        userService.editRole(userId, Role.ROLE_MODERATOR);
+//        return "redirect:/users/all";
+//    }
 
     @PostMapping("/set-admin/{id}")
     public String setAdmin(@PathVariable("id") String userId) {

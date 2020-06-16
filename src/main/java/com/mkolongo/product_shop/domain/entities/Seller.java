@@ -21,6 +21,12 @@ public class Seller extends NamedEntity {
     @OneToMany(mappedBy = "seller")
     private Set<Shop> shops;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Role> roles;
+
 //    @Column(name = "has_paid", nullable = false)
 //    private boolean hasPaid;
 }
