@@ -143,14 +143,16 @@ public class UserServiceImpl implements UserService {
     public UserEditModel getUserById(String id) {
         return userRepository.findById(id)
                 .map(user -> mapper.map(user, UserEditModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("User with id <u>" + id + "</u> does not exist!"));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "User with id <u>" + id + "</u> does not exist!"));
     }
 
     @Override
-    public UserProfileModel getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+    public UserProfileModel getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .map(user -> mapper.map(user, UserProfileModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("User with username <u>" + username + "</u> does not exist!"));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "User with email <u>" + email + "</u> does not exist!"));
     }
 
     private boolean isUserValid(UserServiceModel serviceModel) {
@@ -162,7 +164,7 @@ public class UserServiceImpl implements UserService {
 
     private void setRole(User user) {
         if (userRepository.count() == 0) {
-            user.setRoles(Set.of(Role.ROLE_ROOT, Role.ROLE_ADMIN, Role.ROLE_SELLER, Role.ROLE_USER));
+            user.setRoles(Set.of(Role.ROLE_ADMIN, Role.ROLE_SELLER, Role.ROLE_USER));
         } else {
             user.setRoles(Set.of(Role.ROLE_USER));
         }

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface GroceryListService {
 
-    GroceryList createList(String listName, String userEmail);
+    void createList(String listName, String userEmail);
 
     void addProduct(String listId, String productId);
 

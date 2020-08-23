@@ -1,6 +1,5 @@
 package com.mkolongo.product_shop.web.controllers;
 
-import com.mkolongo.product_shop.domain.entities.GroceryList;
 import com.mkolongo.product_shop.domain.models.view.GroceryListDetailsModel;
 import com.mkolongo.product_shop.services.GroceryListService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,8 @@ public class GroceryListController {
 //    private final ModelMapper mapper;
 
     @PostMapping("/new/{listName}")
-    public GroceryList newList(@PathVariable String listName, Principal principal) {
-        return groceryListService.createList(listName, principal.getName());
+    public void newList(@PathVariable String listName, Principal principal) {
+        groceryListService.createList(listName, principal.getName());
     }
 
     @PostMapping("/{listId}/add-product/{productId}")
@@ -35,7 +34,6 @@ public class GroceryListController {
     }
 
     @GetMapping
-//    @PreAuthorize("isAuthenticated()")
     public String myLists(Model model, Principal principal) {
         var lists = groceryListService.getGroceryListsByOwnersEmail(principal.getName());
         model.addAttribute("model", lists);

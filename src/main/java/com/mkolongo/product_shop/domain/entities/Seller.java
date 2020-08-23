@@ -10,22 +10,14 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "sellers")
-public class Seller extends NamedEntity {
+@DiscriminatorValue(value = "seller")
+public class Seller extends Person {
 
     @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+    private String name;
 
     @OneToMany(mappedBy = "seller")
     private Set<Shop> shops;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    @ElementCollection
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Role> roles;
 
 //    @Column(name = "has_paid", nullable = false)
 //    private boolean hasPaid;

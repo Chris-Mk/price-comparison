@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.PastOrPresent;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 

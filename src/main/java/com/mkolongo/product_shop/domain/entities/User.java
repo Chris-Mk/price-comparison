@@ -10,16 +10,11 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+@DiscriminatorValue(value = "user")
+public class User extends Person {
 
     @Column(nullable = false)
     private String username;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
 
     @OneToMany(mappedBy = "user")
     private Set<GroceryList> groceryLists;
@@ -33,11 +28,5 @@ public class User extends BaseEntity {
 //    @OneToMany
 //    @JoinColumn(name = "friend_id", referencedColumnName = "id")
 //    private Set<User> friends;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    @ElementCollection
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Role> roles;
 
 }

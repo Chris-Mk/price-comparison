@@ -21,5 +21,5 @@ public interface UserService extends UserDetailsService {
 
     UserEditModel getUserById(String id);
 
-    UserProfileModel getUserByUsername(String username);
+    UserProfileModel getUserByEmail(String username);
 }

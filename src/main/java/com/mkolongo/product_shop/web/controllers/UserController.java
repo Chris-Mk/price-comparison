@@ -3,14 +3,12 @@ package com.mkolongo.product_shop.web.controllers;
 import com.mkolongo.product_shop.domain.entities.Role;
 import com.mkolongo.product_shop.domain.models.binding.UserEditModel;
 import com.mkolongo.product_shop.domain.models.binding.UserRegisterModel;
-import com.mkolongo.product_shop.domain.models.service.CategoryServiceModel;
 import com.mkolongo.product_shop.domain.models.service.UserServiceModel;
 import com.mkolongo.product_shop.domain.models.view.UserProfileModel;
 import com.mkolongo.product_shop.exception.EmailExistException;
 import com.mkolongo.product_shop.exception.InvalidPassword;
 import com.mkolongo.product_shop.exception.PasswordsDontMatchException;
 import com.mkolongo.product_shop.exception.UsernameExistException;
-import com.mkolongo.product_shop.services.CategoryService;
 import com.mkolongo.product_shop.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,15 +20,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final CategoryService categoryService;
+//    private final CategoryService categoryService;
     private final UserService userService;
     private final ModelMapper mapper;
 
@@ -52,43 +48,36 @@ public class UserController {
 
         try {
             UserServiceModel serviceModel = mapper.map(bindingModel, UserServiceModel.class);
+            serviceModel.setUsername(bindingModel.getFirstName() + " " + bindingModel.getLastName());
             userService.register(serviceModel);
-        } catch (UsernameExistException | EmailExistException | PasswordsDontMatchException ex) {
-            if (ex instanceof UsernameExistException) {
-                bindingResult.rejectValue("username", "error.bindingModel", ex.getMessage());
-            } else if (ex instanceof EmailExistException) {
-                bindingResult.rejectValue("email", "error.bindingModel", ex.getMessage());
-            } else {
-                bindingResult.rejectValue("password", "error.bindingModel", ex.getMessage());
-                bindingResult.rejectValue("confirmPassword", "error.bindingModel", ex.getMessage());
-            }
+        } catch (EmailExistException ex) {
+            bindingResult.rejectValue("email", "error.bindingModel", ex.getMessage());
             return "user-register";
         }
 
-        return "redirect:/users/login";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
-        final Set<String> categories = categoryService.getAll()
-                .stream()
-                .map(CategoryServiceModel::getName)
-                .collect(Collectors.toSet());
+    public String home(Principal principal) {
+//        final Set<String> categories = categoryService.getAll()
+//                .stream()
+//                .map(CategoryServiceModel::getName)
+//                .collect(Collectors.toSet());
 
-        model.addAttribute("categories", categories);
-        return "home";
+//        model.addAttribute("categories", categories);
+        System.out.println(principal.getName());
+        return "seller-home";
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("isAuthenticated()")
     public String profile(Principal principal, Model model) {
-        final UserProfileModel user = userService.getUserByUsername(principal.getName());
+        final UserProfileModel user = userService.getUserByEmail(principal.getName());
         model.addAttribute("user", user);
         return "profile";
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("isAuthenticated()")
     public String edit(@PathVariable("id") String userId, Model model) {
         final UserEditModel bindingModel = userService.getUserById(userId);
         model.addAttribute("user", bindingModel);
@@ -97,9 +86,7 @@ public class UserController {
 
     @PostMapping("/edit/{id}")
     public String edit(@Valid @ModelAttribute("user") UserEditModel editModel, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "edit-profile";
-        }
+        if (bindingResult.hasErrors()) return "edit-profile";
 
         try {
             userService.editUser(editModel);
@@ -117,7 +104,7 @@ public class UserController {
             return "edit-profile";
         }
 
-        return "redirect:/users/profile";
+        return "redirect:/user/profile";
     }
 
     @GetMapping("/all")
@@ -136,12 +123,12 @@ public class UserController {
     @PostMapping("/set-admin/{id}")
     public String setAdmin(@PathVariable("id") String userId) {
         userService.editRole(userId, Role.ROLE_ADMIN);
-        return "redirect:/users/all";
+        return "redirect:/user/all";
     }
 
     @PostMapping("/set-user/{id}")
     public String setUser(@PathVariable("id") String userId) {
         userService.editRole(userId, Role.ROLE_USER);
-        return "redirect:/users/all";
+        return "redirect:/user/all";
     }
 }

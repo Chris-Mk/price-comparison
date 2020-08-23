@@ -9,4 +9,5 @@ public interface ShopService {
 
     void addProduct(String shopId, ProductBindingModel productBindingModel);
 
+    void removeProduct(String shopId, String productId);
 }

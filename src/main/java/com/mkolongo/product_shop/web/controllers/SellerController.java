@@ -1,8 +1,11 @@
 package com.mkolongo.product_shop.web.controllers;
 
 import com.mkolongo.product_shop.domain.models.binding.SellerRegisterModel;
+import com.mkolongo.product_shop.domain.models.service.SellerServiceModel;
+import com.mkolongo.product_shop.exception.SellerExistException;
 import com.mkolongo.product_shop.services.SellerService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,13 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/sellers")
+@RequestMapping("/seller")
 public class SellerController {
 
     private final SellerService sellerService;
+    private final ModelMapper mapper;
 
     @GetMapping("/login")
     public String login() {
@@ -36,7 +41,20 @@ public class SellerController {
                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "seller-register";
 
-        sellerService.register(sellerRegisterModel);
-        return "redirect:/sellers/login";
+
+        try {
+            SellerServiceModel serviceModel = mapper.map(sellerRegisterModel, SellerServiceModel.class);
+            sellerService.register(serviceModel);
+        } catch (SellerExistException ex) {
+            bindingResult.rejectValue("name", "error.sellerRegisterModel", ex.getMessage());
+        }
+
+        return "redirect:/seller/login";
+    }
+
+    @GetMapping("/home")
+    public String home(Principal principal) {
+        System.out.println(principal.getName());
+        return "seller-home";
     }
 }

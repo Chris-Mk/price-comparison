@@ -33,9 +33,9 @@ public class AppBeanConfig {
 //        Converter<LocalDateTime, String> dateFormatter = ctx -> ctx.getSource()
 //                .format(DateTimeFormatter.ofPattern("EE yyyy-MMM-dd hh:mm a"));
 
-        mapper.createTypeMap(UserRegisterModel.class, UserServiceModel.class)
-                .addMappings(m -> m.map(source -> source.getFirstName() + " " + source.getLastName(),
-                        UserServiceModel::setUsername));
+//        mapper.createTypeMap(UserRegisterModel.class, UserServiceModel.class)
+//                .addMappings(m -> m.map(source -> source.getFirstName() + " " + source.getLastName(),
+//                        UserServiceModel::setUsername));
 //                        (destination, value) -> destination.setUsername(((String) value))));
 
 //        mapper.createTypeMap(Product.class, ProductServiceModel.class)

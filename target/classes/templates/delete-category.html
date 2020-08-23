@@ -1,0 +1,33 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head">
+</th:block>
+<body>
+<div class="container-fluid">
+
+    <header th:insert="fragments/navbar">
+    </header>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Delete Category</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form id="delete-category-form" class="form w-25 mx-auto" th:object="${model}"
+              th:action="@{/categories/delete/{id}(id=*{id})}" method="post">
+            <div class="form-group">
+                <label for="delete-category-name" class="font-weight-bold">Name</label>
+                <input type="text" class="form-control text-center" id="delete-category-name" name="name"
+                       th:field="*{name}" readonly="">
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger">Delete Category</button>
+            </div>
+        </form>
+    </main>
+
+    <th:block th:insert="fragments/footer">
+    </th:block>
+
+</div>
+
+</body>
+</html>

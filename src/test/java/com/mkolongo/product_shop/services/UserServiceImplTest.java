@@ -193,7 +193,7 @@ class UserServiceImplTest {
 
         when(mockMapper.map(mockUser, UserProfileModel.class)).thenReturn(profileModel);
 
-        final UserProfileModel user = mockUserService.getUserByUsername(mockUser.getUsername());
+        final UserProfileModel user = mockUserService.getUserByEmail(mockUser.getUsername());
 
         assertEquals(profileModel.getUsername(), user.getUsername());
         assertEquals(profileModel.getEmail(), user.getEmail());
@@ -203,7 +203,7 @@ class UserServiceImplTest {
     void getUserByUsername_withNonExistingUsername_throwsException() {
         when(mockUserRepository.findByUsername(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> mockUserService.getUserByUsername(anyString()));
+        assertThrows(UsernameNotFoundException.class, () -> mockUserService.getUserByEmail(anyString()));
     }
 
     @Test
