@@ -1,6 +1,6 @@
 # price-comparison site
 Functionality:
 
-. Compare diffrent products
+. Compare different products
 . Creation of grocery lists
-. Sharing grocery lists
+. Sharing grocery lists.

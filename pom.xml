@@ -9,10 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mkolongo</groupId>
-    <artifactId>product_shop</artifactId>
+    <artifactId>price_comparison</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
-    <name>product_shop</name>
+    <name>price_comparison</name>
     <description>Product Shop is a system that registers users, categories, products and groceryLists.</description>
 
     <properties>
