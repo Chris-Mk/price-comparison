@@ -25,14 +25,12 @@ public class SellerServiceImpl implements SellerService {
     private final ModelMapper mapper;
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        SellerPrincipal sellerPrincipal = sellerRepository.findByName(name)
+    public UserDetails loadUserByUsername(String name) {
+        return sellerRepository.findByName(name)
                 .map(SellerPrincipal::new)
                 .orElseThrow(() -> new SellerNotFoundException(
                         "Seller with name <u>" + name + "</u> does not exist!"
                 ));
-        System.out.println(sellerPrincipal);
-        return sellerPrincipal;
     }
 
     @Override

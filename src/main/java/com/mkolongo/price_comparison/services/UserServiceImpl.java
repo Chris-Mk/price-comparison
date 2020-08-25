@@ -7,10 +7,7 @@ import com.mkolongo.price_comparison.domain.models.binding.UserEditModel;
 import com.mkolongo.price_comparison.domain.models.service.UserServiceModel;
 import com.mkolongo.price_comparison.domain.models.view.UserProfileModel;
 import com.mkolongo.price_comparison.domain.models.view.UserViewModel;
-import com.mkolongo.price_comparison.exception.EmailExistException;
-import com.mkolongo.price_comparison.exception.InvalidPassword;
-import com.mkolongo.price_comparison.exception.PasswordsDontMatchException;
-import com.mkolongo.price_comparison.exception.UsernameExistException;
+import com.mkolongo.price_comparison.exception.*;
 import com.mkolongo.price_comparison.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -36,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) {
         return userRepository.findByEmail(email)
                 .map(UserPrincipal::new)
-                .orElseThrow(() -> new UsernameNotFoundException(
+                .orElseThrow(() -> new UserNotFoundException(
                         "User with email <u>" + email + "</u> does not exist!"
                 ));
     }

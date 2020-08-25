@@ -1,16 +1,12 @@
 package com.mkolongo.price_comparison.config;
 
-import com.mkolongo.price_comparison.domain.JwtPropertiesConfig;
 import com.mkolongo.price_comparison.services.SellerService;
-import com.mkolongo.price_comparison.web.filters.JwtAuthenticationFilter;
-import com.mkolongo.price_comparison.web.filters.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -19,7 +15,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @RequiredArgsConstructor
 public class SellerSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtPropertiesConfig jwtPropertiesConfig;
+//    private final JwtPropertiesConfig jwtPropertiesConfig;
     private final SellerService sellerService;
 
     @Override
@@ -36,11 +32,11 @@ public class SellerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(csrfTokenRepository())
 
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtPropertiesConfig))
-                .addFilterAfter(new JwtTokenFilter(jwtPropertiesConfig), JwtAuthenticationFilter.class)
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtPropertiesConfig))
+//                .addFilterAfter(new JwtTokenFilter(jwtPropertiesConfig), JwtAuthenticationFilter.class)
 
                 .authorizeRequests()
                 .antMatchers("/css/**", "/js/**").permitAll()

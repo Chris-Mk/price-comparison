@@ -66,7 +66,6 @@ public class UserController {
 //                .collect(Collectors.toSet());
 
 //        model.addAttribute("categories", categories);
-        System.out.println(principal.getName());
         return "seller-home";
     }
 

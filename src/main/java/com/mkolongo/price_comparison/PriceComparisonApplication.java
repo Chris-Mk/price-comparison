@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @EnableConfigurationProperties(JwtPropertiesConfig.class)
 @SpringBootApplication
-public class ProductShopApplication {
+public class PriceComparisonApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ProductShopApplication.class, args);
+        SpringApplication.run(PriceComparisonApplication.class, args);
     }
 
 }

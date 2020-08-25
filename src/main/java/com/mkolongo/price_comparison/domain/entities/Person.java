@@ -9,6 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "persons")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "person_type")
 public class Person extends BaseEntity {
@@ -22,7 +23,7 @@ public class Person extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "person_roles",
+    @CollectionTable(name = "persons_roles",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"))
     private Set<Role> roles;
 

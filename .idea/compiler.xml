@@ -7,16 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="price_comparison" />
+        <module name="price-comparison" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="price_comparison" target="13" />
+      <module name="price-comparison" target="13" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="price_comparison" options="-parameters" />
+      <module name="price-comparison" options="-parameters" />
     </option>
   </component>
 </project>

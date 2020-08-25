@@ -11,7 +11,7 @@ spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
         password: ''
-        url: jdbc:mysql://localhost:3306/product_shop_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=EET
+        url: jdbc:mysql://localhost:3306/price_comparison?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=EET
         username: root
     jpa:
         hibernate:
@@ -21,6 +21,7 @@ spring:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
                 format_sql: true
                 show_sql: true
+        open-in-view: false
 #    security:
 #        oauth2:
 #            client:

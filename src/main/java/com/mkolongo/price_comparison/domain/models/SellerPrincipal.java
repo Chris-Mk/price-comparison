@@ -1,6 +1,7 @@
 package com.mkolongo.price_comparison.domain.models;
 
 import com.mkolongo.price_comparison.domain.entities.Seller;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Getter
 @RequiredArgsConstructor
 public class SellerPrincipal implements UserDetails {
 
@@ -52,10 +54,4 @@ public class SellerPrincipal implements UserDetails {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "SellerPrincipal{" +
-               "seller=" + seller +
-               '}';
-    }
 }

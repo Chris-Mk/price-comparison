@@ -54,7 +54,6 @@ public class SellerController {
 
     @GetMapping("/home")
     public String home(Principal principal) {
-        System.out.println(principal.getName());
         return "seller-home";
     }
 }

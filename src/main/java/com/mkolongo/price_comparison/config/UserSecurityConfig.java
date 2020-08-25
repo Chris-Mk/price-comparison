@@ -1,16 +1,12 @@
 package com.mkolongo.price_comparison.config;
 
-import com.mkolongo.price_comparison.domain.JwtPropertiesConfig;
 import com.mkolongo.price_comparison.services.UserService;
-import com.mkolongo.price_comparison.web.filters.JwtAuthenticationFilter;
-import com.mkolongo.price_comparison.web.filters.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -19,7 +15,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @RequiredArgsConstructor
 public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtPropertiesConfig jwtPropertiesConfig;
+//    private final JwtPropertiesConfig jwtPropertiesConfig;
     private final UserService userService;
 
     @Override
@@ -31,15 +27,14 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .csrfTokenRepository(csrfTokenRepository())
+
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtPropertiesConfig))
+//                .addFilterAfter(new JwtTokenFilter(jwtPropertiesConfig), JwtAuthenticationFilter.class)
 
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtPropertiesConfig))
-                .addFilterAfter(new JwtTokenFilter(jwtPropertiesConfig), JwtAuthenticationFilter.class)
-
                 .authorizeRequests()
                 .antMatchers("/css/**", "/js/**").permitAll()
                 .antMatchers("/user/register","/user/login", "/").anonymous()
@@ -50,7 +45,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .loginPage("/user/login")
-                .defaultSuccessUrl("/user/home", true)
+                .defaultSuccessUrl("/user/home")
 
 //                .and()
 //                .rememberMe()
@@ -60,11 +55,5 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout();
 
-    }
-
-    private static CsrfTokenRepository csrfTokenRepository() {
-        var csrfTokenRepository = new HttpSessionCsrfTokenRepository();
-        csrfTokenRepository.setSessionAttributeName("_csrf");
-        return csrfTokenRepository;
     }
 }
