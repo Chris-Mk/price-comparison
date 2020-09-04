@@ -16,25 +16,25 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/shops")
+@RequestMapping("/shop")
 public class ShopController {
 
     private final ShopService shopService;
 
-    @GetMapping
+    @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("shopRegisterModel", new ShopRegisterModel());
-        return "";
+        return "shop-register";
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public String register(@Valid @ModelAttribute("shopRegisterModel") ShopRegisterModel shopRegisterModel,
                            BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "";
+            return "shop-register";
         }
 
         shopService.createShop(shopRegisterModel, principal.getName());
-        return "";
+        return "redirect:/seller/home";
     }
 }

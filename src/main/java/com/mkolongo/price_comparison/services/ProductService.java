@@ -17,5 +17,5 @@ public interface ProductService {
 
     void edit(ProductEditModel editModel);
 
-    Set<ProductServiceModel> getByCategory(String category);
+    Set<ProductServiceModel> getProductsByShopId(String shopId);
 }

@@ -96,11 +96,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<ProductServiceModel> getByCategory(String categoryName) {
-        final Set<Product> products = productRepository.findByCategory(categoryName);
+    public Set<ProductServiceModel> getProductsByShopId(String shopId) {
+//        final Set<Product> products = productRepository.findByCategory(shopId);
 
+        Set<Product> products = productRepository.findProductsByShopId(shopId);
         return mapper.map(products, new TypeToken<Set<ProductServiceModel>>() {}.getType());
-//        final Category category = categoryRepository.findByName(categoryName);
+
+//        final Category category = categoryRepository.findByName(shopId);
 
 //        return productRepository.findAll()
 //                .stream()
@@ -108,5 +110,6 @@ public class ProductServiceImpl implements ProductService {
 //                .map(product -> mapper.map(product, ProductServiceModel.class))
 //                .sorted(Comparator.comparing(ProductServiceModel::getName))
 //                .collect(Collectors.toCollection(LinkedHashSet::new));
+
     }
 }

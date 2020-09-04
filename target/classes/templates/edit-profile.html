@@ -1,0 +1,57 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head">
+</th:block>
+<body>
+<div class="container-fluid">
+
+    <header th:insert="fragments/navbar">
+    </header>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Edit Profile</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form class="form w-25 mx-auto" th:action="@{/users/edit/{id}(id=*{id})}" th:method="post" th:object="${user}">
+            <div class="form-group">
+                <label for="username" class="font-weight-bold">Username</label>
+                <input type="text" class="form-control" name="username" id="username"
+                       th:field="*{username}" th:errorclass="border-danger">
+                <small th:errors="*{username}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="oldPassword" class="font-weight-bold">Old Password</label>
+                <input type="password" class="form-control" id="oldPassword" placeholder="Password..." name="oldPassword"
+                       th:field="*{oldPassword}" th:errorclass="border-danger">
+                <small th:errors="*{oldPassword}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="newPassword" class="font-weight-bold">New Password</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="New Password..." name="newPassword"
+                       th:field="*{newPassword}" th:errorclass="border-danger">
+                <small th:errors="*{newPassword}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword" class="font-weight-bold">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm New Password..."
+                       name="confirmNewPassword" th:field="*{confirmNewPassword}" th:errorclass="border-danger">
+                <small th:errors="*{confirmNewPassword}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="email" class="font-weight-bold">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email..." name="email"
+                       th:field="*{email}" th:errorclass="border-danger">
+                <small th:errors="*{email}" class="text-danger"></small>
+            </div>
+            <hr class="hr-2 bg-dark">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark">Edit</button>
+            </div>
+        </form>
+    </main>
+
+    <th:block th:insert="fragments/footer">
+    </th:block>
+
+</div>
+
+</body>
+</html>

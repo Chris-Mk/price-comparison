@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -31,5 +32,8 @@ public class Shop extends NamedEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
     private Seller seller;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 }

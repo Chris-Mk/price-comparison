@@ -2,8 +2,10 @@ package com.mkolongo.price_comparison.web.controllers;
 
 import com.mkolongo.price_comparison.domain.models.binding.SellerRegisterModel;
 import com.mkolongo.price_comparison.domain.models.service.SellerServiceModel;
+import com.mkolongo.price_comparison.domain.models.view.ShopViewModel;
 import com.mkolongo.price_comparison.exception.SellerExistException;
 import com.mkolongo.price_comparison.services.SellerService;
+import com.mkolongo.price_comparison.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ import java.security.Principal;
 public class SellerController {
 
     private final SellerService sellerService;
+    private final ShopService shopService;
     private final ModelMapper mapper;
 
     @GetMapping("/login")
@@ -41,7 +45,6 @@ public class SellerController {
                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "seller-register";
 
-
         try {
             SellerServiceModel serviceModel = mapper.map(sellerRegisterModel, SellerServiceModel.class);
             sellerService.register(serviceModel);
@@ -53,7 +56,9 @@ public class SellerController {
     }
 
     @GetMapping("/home")
-    public String home(Principal principal) {
+    public String home(Model model, Principal principal) {
+        Set<ShopViewModel> shops = shopService.getShopsBySellerName(principal.getName());
+        model.addAttribute("shops", shops);
         return "seller-home";
     }
 }

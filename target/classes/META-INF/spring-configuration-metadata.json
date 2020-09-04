@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "name": "app.jwt",
+      "type": "com.mkolongo.price_comparison.domain.JwtPropertiesConfig",
+      "sourceType": "com.mkolongo.price_comparison.domain.JwtPropertiesConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.mkolongo.price_comparison.domain.JwtPropertiesConfig"
+    },
+    {
+      "name": "app.jwt.token-expiration-days",
+      "type": "java.lang.Long",
+      "sourceType": "com.mkolongo.price_comparison.domain.JwtPropertiesConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "app.jwt.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.mkolongo.price_comparison.domain.JwtPropertiesConfig"
+    }
+  ],
+  "hints": []
+}

@@ -85,10 +85,10 @@ public class ProductController {
     }
 
     @ResponseBody
-    @GetMapping("/fetch/{category}")
+    @GetMapping("/fetch/{shopId}")
     @PreAuthorize("isAuthenticated()")
-    public Set<ProductServiceModel> fetch(@PathVariable String category) {
-        return category.equals("all") ? productService.getAll() : productService.getByCategory(category);
+    public Set<ProductServiceModel> fetch(@PathVariable String shopId) {
+        return productService.getProductsByShopId(shopId);
     }
 
 }

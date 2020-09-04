@@ -1,17 +1,35 @@
 package com.mkolongo.price_comparison.config;
 
+import com.mkolongo.price_comparison.domain.entities.Shop;
+import com.mkolongo.price_comparison.domain.models.binding.ShopRegisterModel;
+import org.apache.tomcat.jni.Local;
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalTime;
+
 @Configuration
 public class AppBeanConfig {
 
     @Bean
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     public ModelMapper mapper() {
         ModelMapper mapper = new ModelMapper();
+
+        Converter<String, LocalTime> getTime = ctx -> LocalTime.parse(ctx.getSource());
+        mapper.createTypeMap(ShopRegisterModel.class, Shop.class)
+                .addMappings(m -> {
+                    m.using(getTime)
+                            .map(ShopRegisterModel::getClosingTime,
+                                    (destination, value) -> destination.setClosingTime((LocalTime) value));
+                    m.using(getTime)
+                            .map(ShopRegisterModel::getOpeningTime,
+                                    (destination, value) -> destination.setOpeningTime((LocalTime) value));
+                });
 
 //        Converter<Set<Category>, Set<String>> getCategoryName = ctx -> ctx.getSource()
 //                .stream()
